@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Nature's Embrace - Premium Herbal Marketplace{% endblock title %}
+
+{% block content %}
+    <div class="hero-herbal animate-fade-up delay-1">
+        <h1>Pure, Natural, Herbal.</h1>
+        <p>Discover a premium selection of organic herbs, elixirs, and natural remedies sourced directly from our trusted vendors.</p>
+        <a href="#latest" class="button is-dark is-large">Shop Now</a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="columns is-multiline mt-6 mb-6 animate-fade-up delay-2">
+        <div class="column is-4 has-text-centered">
+            <div class="box" style="background: transparent; box-shadow: none; border: none; padding: 2rem;">
+                <h3 class="is-size-4" style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem;">100% Organic</h3>
+                <p>All our products are certified organic, ensuring the highest quality and purity for your wellness journey.</p>
+            </div>
+        </div>
+        <div class="column is-4 has-text-centered">
+            <div class="box" style="background: transparent; box-shadow: none; border: none; padding: 2rem;">
+                <h3 class="is-size-4" style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem;">Eco-Friendly</h3>
+                <p>We prioritize sustainable sourcing and eco-friendly packaging to protect our beautiful planet.</p>
+            </div>
+        </div>
+        <div class="column is-4 has-text-centered">
+            <div class="box" style="background: transparent; box-shadow: none; border: none; padding: 2rem;">
+                <h3 class="is-size-4" style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem;">Trusted Vendors</h3>
+                <p>We partner with passionate artisans and farmers who share our commitment to natural health.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quality Showcase Section -->
+    <div class="columns is-multiline mt-2 mb-6 animate-fade-up delay-3">
+        <div class="column is-6">
+            <figure class="image is-3by2" style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); height: 100%;">
+                <img src="{% static 'images/herbal_showcase_1.png' %}" style="object-fit: cover; height: 100%; width: 100%; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Herbal Medicine Prep">
+            </figure>
+        </div>
+        <div class="column is-6">
+            <figure class="image is-3by2" style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); height: 100%;">
+                <img src="{% static 'images/herbal_showcase_2.png' %}" style="object-fit: cover; height: 100%; width: 100%; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" alt="Fresh Herbal Collection">
+            </figure>
+        </div>
+    </div>
+
+    <div id="latest" class="columns is-multiline mb-6">
+        <div class="column is-12 has-text-centered mt-6 mb-6 animate-fade-up delay-2">
+            <h2 class="is-size-2 title" style="color: var(--primary-color);">Our Latest Offerings</h2>
+            <p class="subtitle" style="color: var(--primary-light);">Carefully curated for your well-being</p>
+        </div>
+
+        {% for product in newest_products %}
+            {% include 'product/parts/list_item.html' %}
+        {% endfor %}
+    </div>
+{% endblock content %}

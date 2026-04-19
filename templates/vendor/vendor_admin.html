@@ -1,0 +1,140 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Vendor Admin{% endblock title %}
+
+{% block content %}
+
+    <!-- Dashboard Header -->
+    <div class="columns is-vcentered mb-6 animate-fade-up delay-1">
+        <div class="column is-8">
+            <h1 class="title is-2 mb-2" style="color: var(--primary-color);">
+                Welcome back, <span class="is-capitalized has-text-weight-bold">{{vendor.name}}</span>
+            </h1>
+            <p class="subtitle is-5" style="color: var(--text-muted);">Manage your store, products, and orders below.</p>
+        </div>
+        <div class="column is-4 has-text-right">
+            <a href="{% url 'vendor:add-product' %}" class="button is-primary is-medium">
+                <strong>+ Add New Product</strong>
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="columns mb-6 animate-fade-up delay-2">
+        <div class="column is-6">
+            <div class="box has-text-centered" style="background: linear-gradient(135deg, rgba(26,77,46,0.05), rgba(79,111,82,0.1)); border: 1px solid rgba(26,77,46,0.1);">
+                <p class="heading is-size-6" style="color: var(--primary-color);">Available Balance</p>
+                <p class="title is-1" style="color: var(--primary-color);">${{vendor.get_balance}}</p>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box has-text-centered" style="background: linear-gradient(135deg, rgba(212,163,115,0.05), rgba(212,163,115,0.15)); border: 1px solid rgba(212,163,115,0.2);">
+                <p class="heading is-size-6" style="color: #c89562;">Total Paid Out</p>
+                <p class="title is-1" style="color: #c89562;">${{vendor.get_paid_amount}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products & Orders Layout -->
+    <div class="columns is-variable is-6 animate-fade-up delay-3">
+        
+        <!-- My Products List -->
+        <div class="column is-7">
+            <div class="box" style="padding: 2rem;">
+                <div class="level mb-5">
+                    <div class="level-left">
+                        <h2 class="title is-4 mb-0" style="color: var(--primary-color);">My Products</h2>
+                    </div>
+                </div>
+
+                {% if products %}
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-hoverable is-striped" style="margin-bottom: 0;">
+                            <thead>
+                                <tr>
+                                    <th class="has-text-grey" style="border-bottom: 2px solid #ddd;">S.N.</th>
+                                    <th class="has-text-grey" style="border-bottom: 2px solid #ddd;">Product Title</th>
+                                    <th class="has-text-grey has-text-right" style="border-bottom: 2px solid #ddd;">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                    <tr>
+                                        <td class="has-text-weight-bold" style="vertical-align: middle;">{{ forloop.counter }}</td>
+                                        <td style="vertical-align: middle;">
+                                            <a href="{% url 'product:product' product.category.slug product.slug %}" class="has-text-weight-medium" style="color: var(--text-main);">
+                                                {{ product.title }}
+                                            </a>
+                                        </td>
+                                        <td class="has-text-right has-text-weight-bold" style="vertical-align: middle; color: var(--primary-color);">
+                                            ${{ product.price }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="notification is-light has-text-centered p-6" style="border-radius: var(--radius-md);">
+                        <p class="has-text-grey is-size-5 mb-4">You haven't added any products to your store yet.</p>
+                        <a href="{% url 'vendor:add-product' %}" class="button is-dark">Add Your First Product</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Orders List -->
+        <div class="column is-5">
+            <div class="box" style="padding: 2rem; background: var(--accent-dark); border: none;">
+                <h2 class="title is-4 mb-5" style="color: var(--primary-color);">Recent Orders</h2>
+
+                {% if orders %}
+                    <div class="orders-list">
+                    {% for order in orders %}
+                        <div class="card mb-4 {% if order.fully_paid %}order-paid{% else %}order-unpaid{% endif %}" style="border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);">
+                            <div class="card-content">
+                                <p class="title is-5 mb-2">Order #{{ order.id }}</p>
+                                <p class="subtitle is-6 mb-3 has-text-grey">{{ order.first_name }} {{ order.last_name }}</p>
+                                
+                                <div class="content is-small mb-4">
+                                    <p class="mb-1"><strong class="has-text-grey">Email:</strong> {{ order.email }}</p>
+                                    <p class="mb-1"><strong class="has-text-grey">Location:</strong> {{ order.zipcode }} {{ order.place }}</p>
+                                </div>
+
+                                <div class="table-container pt-2" style="border-top: 1px solid #eee;">
+                                    <table class="table is-narrow is-fullwidth m-0" style="background: transparent;">
+                                        <thead>
+                                            <tr>
+                                                <th class="has-text-grey">Item</th>
+                                                <th class="has-text-grey has-text-centered">Qty</th>
+                                                <th class="has-text-grey has-text-right">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in order.items.all %}
+                                                {% if item.vendor == request.user.vendor %}
+                                                    <tr>
+                                                        <td>{{ item.product.title|truncatechars:20 }}</td>
+                                                        <td class="has-text-centered">{{ item.quantity }}</td>
+                                                        <td class="has-text-right has-text-weight-bold">${{ item.get_total_price }}</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% else %}
+                     <div class="notification is-white has-text-centered p-5" style="border-radius: var(--radius-md);">
+                        <p class="has-text-grey">No orders yet. Keep promoting your store!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content %}

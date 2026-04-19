@@ -1,0 +1,11 @@
+asgiref
+certifi
+chardet
+Django>=5.0
+idna
+Pillow
+pytz
+requests
+sqlparse
+stripe
+urllib3
