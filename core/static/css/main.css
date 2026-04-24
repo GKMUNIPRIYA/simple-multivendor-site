@@ -25,6 +25,13 @@
     --radius-pill: 50px;
 }
 
+.announcement-bar {
+    background-color: var(--primary-color);
+    color: var(--white);
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
 body {
     font-family: 'Outfit', sans-serif;
     background-color: var(--accent-color);

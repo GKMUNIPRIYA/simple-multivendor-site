@@ -16,104 +16,72 @@
 </head>
 <body>
 
-    <div class="container">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'core:home' %}">
-                <img src="{% static 'images/logo.jpg' %}" style="max-height: 60px;">
-                </a>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar has-text-centered p-2">
+        <p class="is-size-7">🌿 Free Shipping on all Herbal Essentials over ₹999 | 100% Pure & Organic</p>
+    </div>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
+    <div class="container">
+        <!-- Main Navbar -->
+        <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand is-hidden-desktop">
+                <a class="navbar-item" href="{% url 'core:home' %}">
+                    <img src="{% static 'images/logo.jpg' %}" style="max-height: 50px;">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
             </div>
 
-            <div id="navbarBasicExample" class="navbar-menu">
+            <div id="navbarMain" class="navbar-menu">
                 <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'core:home' %}">
-                    <i class="fas fa-home mr-1"></i> Home
-                </a>
-                
-                {% for category in categories %}
-                    <a class="navbar-item" href="{% url 'product:category' category.slug %}">
-                        {{category.title}}
-                    </a>
-                {% endfor %}
-
-                <a class="navbar-item" href="{% url 'vendor:vendors' %}">
-                    <i class="fas fa-store mr-1"></i> Vendors
-                </a>
-
+                    <a class="navbar-item" href="{% url 'core:home' %}">Home</a>
+                    {% for category in categories|slice:":3" %}
+                        <a class="navbar-item" href="{% url 'product:category' category.slug %}">{{ category.title }}</a>
+                    {% endfor %}
                 </div>
 
-                <div class="navbar-start">
-                    <div class="navbar-item">
-                        <form method="get" action="{% url 'product:search' %}">
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <input type="search" name="query" id="search-input" class="input" placeholder="Search products...">
-                                </div>
-                                <div class="control">
-                                    <button class="button is-dark is-uppercase" id="search-btn"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <!-- Centered Logo for Desktop -->
+                <div class="navbar-brand is-hidden-touch is-flex is-align-items-center is-justify-content-center" style="flex: 1;">
+                    <a class="navbar-item" href="{% url 'core:home' %}">
+                        <img src="{% static 'images/logo.jpg' %}" style="max-height: 70px; margin: 0 auto;">
+                    </a>
                 </div>
 
                 <div class="navbar-end">
-
-                <div class="navbar-item">
-                    <a href="{% url 'cart:cart' %}" class="button is-warning" id="cart-btn">
-                        <i class="fas fa-shopping-cart mr-1"></i> Cart {% if cart %}({{cart|length}}){% endif %}
-                    </a>
-                </div>
-                
-                {% if request.user.is_authenticated %}
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link is-capitalized">
-                    <i class="fas fa-user-circle mr-1"></i> {{user.vendor.name}}
-                    </a>
-
-                    <div class="navbar-dropdown">
-                    <a class="navbar-item" href="{% url 'vendor:vendor-admin' %}">
-                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                    </a>
-                    <a class="navbar-item" href="{% url 'vendor:edit-vendor' %}">
-                        <i class="fas fa-user-edit mr-2"></i> Update Profile
-                    </a>
-                    <a class="navbar-item" href="{% url 'vendor:add-product' %}">
-                        <i class="fas fa-plus-circle mr-2"></i> Add Product
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item" href="{% url 'vendor:logout' %}">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </a>
+                    <div class="navbar-item">
+                        <form method="get" action="{% url 'product:search' %}">
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <input class="input is-rounded is-small" type="search" name="query" placeholder="Search...">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </form>
                     </div>
-                </div>
-
-                {% else %}
-
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-primary" href="{% url 'vendor:become-vendor' %}" id="signup-btn">
-                            <strong><i class="fas fa-user-plus mr-1"></i> Become Vendor</strong>
-                        </a>
-                        <a class="button is-light" href="{% url 'vendor:login' %}" id="login-btn">
-                            <i class="fas fa-sign-in-alt mr-1"></i> Log in
-                        </a>
-                    </div>
-                </div>
-
-                {% endif %}
-
-
+                    <a class="navbar-item" href="{% url 'cart:cart' %}">
+                        <span class="icon"><i class="fas fa-shopping-bag"></i></span>
+                        {% if cart %}<span class="tag is-primary is-rounded ml-1">{{ cart|length }}</span>{% endif %}
+                    </a>
+                    
+                    {% if request.user.is_authenticated %}
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link"><i class="fas fa-user-circle mr-1"></i> Account</a>
+                            <div class="navbar-dropdown is-right">
+                                <a class="navbar-item" href="{% url 'vendor:vendor-admin' %}">Dashboard</a>
+                                <a class="navbar-item" href="{% url 'vendor:logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="navbar-item" href="{% url 'vendor:login' %}">Login</a>
+                    {% endif %}
                 </div>
             </div>
-            </nav>
+        </nav>
     </div>
 
     {% if messages %}
