@@ -1,20 +1,52 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Add Product{% endblock title %}
+{% block title %}Add Product — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1 class="title">Add Product</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-6">
+            <div class="box" style="padding: 2.5rem;">
+                <div class="has-text-centered mb-5">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">📦</div>
+                    <h1 class="title is-3" style="color: var(--primary-color);">Add New Product</h1>
+                    <p style="color: var(--text-muted);">List a new product in your store</p>
+                </div>
 
-    <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
+                {% if form.errors %}
+                    <div class="notification is-danger is-light">
+                        <button class="delete"></button>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
-        {{ form.as_p }}
+                <form method="post" action="" enctype="multipart/form-data" id="add-product-form">
+                    {% csrf_token %}
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-dark is-uppercase">Add Product</button>
+                    {{ form.as_p }}
+
+                    <div class="field mt-5">
+                        <div class="control">
+                            <button class="button is-primary is-fullwidth is-medium" id="add-product-submit-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add Product
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="has-text-centered mt-4">
+                    <a href="{% url 'vendor:vendor-admin' %}" style="color: var(--text-muted);">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
+                    </a>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
+
 {% endblock content %}

@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <title>Interiorshop</title>
+        <title>Multi Vendor Shop — Order Confirmation</title>
 
         <style type="text/css">
             html {
@@ -12,57 +12,153 @@
 
             body {
                 width: 100%;
-                font-family: Arial;
+                font-family: 'Segoe UI', Arial, sans-serif;
                 font-size: 14px;
-                background-color: #fff;
+                background-color: #f5efe6;
                 color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            .email-container {
+                max-width: 600px;
+                margin: 20px auto;
+                background: #ffffff;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            }
+
+            .email-header {
+                background: linear-gradient(135deg, #1a4d2e, #4f6f52);
+                color: #ffffff;
+                padding: 30px 30px;
+                text-align: center;
+            }
+
+            .email-header h1 {
+                margin: 0;
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+            .email-header p {
+                margin: 8px 0 0;
+                opacity: 0.85;
+                font-size: 14px;
+            }
+
+            .email-body {
+                padding: 30px;
+            }
+
+            .section-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: #1a4d2e;
+                margin-bottom: 12px;
+                border-bottom: 2px solid #e8dfca;
+                padding-bottom: 8px;
+            }
+
+            .detail-row {
+                padding: 4px 0;
+                font-size: 14px;
+            }
+
+            .detail-row b {
+                color: #1a4d2e;
+                min-width: 100px;
+                display: inline-block;
+            }
+
+            .products-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 8px;
+            }
+
+            .products-table th {
+                background: #f5efe6;
+                color: #1a4d2e;
+                padding: 10px 12px;
+                text-align: left;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .products-table td {
+                padding: 10px 12px;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 14px;
+            }
+
+            .total-row {
+                background: #f5efe6;
+                font-weight: 600;
+            }
+
+            .total-row td {
+                padding: 12px;
+                color: #1a4d2e;
+                border-bottom: none;
+            }
+
+            .email-footer {
+                background: #f5efe6;
+                padding: 20px 30px;
+                text-align: center;
+                font-size: 12px;
+                color: #6c757d;
             }
         </style>
     </head>
 
     <body>
-        <table width="100%" cellspacing="0" cellpadding="0">
-            <tr>
-                <td><h1>New order</h1></td>
-            </tr>
+        <div class="email-container">
+            <div class="email-header">
+                <h1>🎉 Order Confirmed!</h1>
+                <p>Thank you for your purchase, {{ order.first_name }}!</p>
+            </div>
 
-            <tr>
-                <td>
-                    <h3>Details</h3>
+            <div class="email-body">
+                <h3 class="section-title">Shipping Details</h3>
+                <div class="detail-row"><b>Name:</b> {{ order.first_name }} {{ order.last_name }}</div>
+                <div class="detail-row"><b>Address:</b> {{ order.address }}</div>
+                <div class="detail-row"><b>Zip / Place:</b> {{ order.zipcode }} {{ order.place }}</div>
+                <div class="detail-row"><b>E-mail:</b> {{ order.email }}</div>
+                <div class="detail-row"><b>Phone:</b> {{ order.phone }}</div>
 
-                    <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
-                    <b>Address:</b> {{ order.address }}<br>
-                    <b>Zip and place:</b> {{ order.zipcode }} {{ order.place }}<br>
-                    <b>E-mail:</b> {{ order.email }}<br>
-                    <b>Phone:</b> {{ order.phone }}
-                </td>
-            </tr>
+                <br>
 
-            <tr>
-                <td>
-                    <h3>Products</h3>
-
-                    <table width="100%" cellspacing="0" cellpadding="0">
+                <h3 class="section-title">Order Items</h3>
+                <table class="products-table" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                    
+                    {% for item in order.items.all %}
                         <tr>
-                            <td><b>Product</b></td>
-                            <td><b>Price</b></td>
-                            <td><b>Quantity</b></td>
-                            <td><b>Total</b></td>
+                            <td>{{ item.product.title }}</td>
+                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.get_total_price }}</td>
                         </tr>
-                        
-                        {% for item in order.items.all %}
-                            {% if item.vendor == vendor %}
-                                <tr>
-                                    <td>{{ item.product.title }}</td>
-                                    <td>${{ item.product.price }}</td>
-                                    <td>{{ item.quantity }}</td>
-                                    <td>${{ item.get_total_price }}</td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </table>
-                </td>
-            </tr>
-        </table>
+                    {% endfor %}
+
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Total Paid</strong></td>
+                        <td><strong>${{ order.paid_amount }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="email-footer">
+                <p>Multi Vendor Shop &bull; Thank you for choosing us!</p>
+            </div>
+        </div>
     </body>
 </html>

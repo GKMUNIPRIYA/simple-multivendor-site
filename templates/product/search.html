@@ -1,15 +1,35 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Search for {{query}}{% endblock title %}
+{% block title %}Search for "{{query}}" — Nature's Embrace{% endblock title %}
 
 {% block content %}
     <div class="columns is-multiline mb-6">
-        <div class="column is-12 has-test-centered mt-6 mb-6">
-            <h2 class="is-size-3"> Search for "{{query}}"</h2>
+        <div class="column is-12 has-text-centered mt-4 mb-4 animate-fade-up delay-1">
+            <h1 class="title is-2" style="color: var(--primary-color);">
+                <i class="fas fa-search mr-2"></i>Search Results
+            </h1>
+            <p class="subtitle is-5" style="color: var(--text-muted);">
+                {% if products %}
+                    {{ products|length }} result{{ products|length|pluralize }} for "<strong>{{query}}</strong>"
+                {% else %}
+                    No results for "<strong>{{query}}</strong>"
+                {% endif %}
+            </p>
         </div>
 
         {% for product in products %}
             {% include 'product/parts/list_item.html' %}
+        {% empty %}
+            <div class="column is-12 has-text-centered animate-fade-up delay-2">
+                <div class="box" style="padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">🔍</div>
+                    <h3 class="title is-5" style="color: var(--text-muted);">No products found</h3>
+                    <p style="color: var(--text-muted);" class="mb-4">Try searching with different keywords or browse our categories.</p>
+                    <a href="{% url 'core:home' %}" class="button is-primary">
+                        <i class="fas fa-home mr-2"></i> Back to Home
+                    </a>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

@@ -1,15 +1,30 @@
 {% extends 'core/base.html' %}
 
-{% block title %}{{category.title}}{% endblock title %}
+{% block title %}{{category.title}} — Nature's Embrace{% endblock title %}
 
 {% block content %}
     <div class="columns is-multiline mb-6">
-        <div class="column is-12 has-test-centered mt-6 mb-6">
-            <h2 class="is-size-3">{{category.title}}</h2>
+        <div class="column is-12 has-text-centered mt-4 mb-4 animate-fade-up delay-1">
+            <h1 class="title is-2" style="color: var(--primary-color);">{{category.title}}</h1>
+            <p class="subtitle is-5" style="color: var(--text-muted);">
+                {% with count=category.products.count %}
+                    {{ count }} product{{ count|pluralize }} available
+                {% endwith %}
+            </p>
         </div>
 
         {% for product in category.products.all %}
             {% include 'product/parts/list_item.html' %}
+        {% empty %}
+            <div class="column is-12 has-text-centered animate-fade-up delay-2">
+                <div class="box" style="padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">📦</div>
+                    <p class="is-size-5" style="color: var(--text-muted);">No products in this category yet.</p>
+                    <a href="{% url 'core:home' %}" class="button is-primary mt-4">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                    </a>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

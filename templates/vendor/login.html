@@ -1,24 +1,51 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Vendor Login{% endblock title %}
+{% block title %}Vendor Login — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1 class="title">Vendor Login</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-5">
+            <div class="box" style="padding: 2.5rem;">
+                <div class="has-text-centered mb-5">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔐</div>
+                    <h1 class="title is-3" style="color: var(--primary-color);">Vendor Login</h1>
+                    <p style="color: var(--text-muted);">Welcome back! Sign in to manage your store.</p>
+                </div>
 
-    <form method="post" action="">
-        {% csrf_token %}
+                {% if form.errors %}
+                    <div class="notification is-danger is-light">
+                        <button class="delete"></button>
+                        <p><i class="fas fa-exclamation-triangle mr-2"></i>Invalid username or password. Please try again.</p>
+                    </div>
+                {% endif %}
 
-        {{ form.as_p }}
+                <form method="post" action="" id="login-form">
+                    {% csrf_token %}
 
-        {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-        {% endif %}
+                    {{ form.as_p }}
 
-        <div class="field">
-            <div class="control">
-                <button type="submit" class="button is-dark is-uppercase">Log In</button>
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+
+                    <div class="field mt-5">
+                        <div class="control">
+                            <button type="submit" class="button is-primary is-fullwidth is-medium" id="login-submit-btn">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Log In
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="has-text-centered mt-5">
+                    <p style="color: var(--text-muted);">
+                        Don't have an account? 
+                        <a href="{% url 'vendor:become-vendor' %}" style="color: var(--primary-color); font-weight: 600;">Sign up</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
+
 {% endblock content %}

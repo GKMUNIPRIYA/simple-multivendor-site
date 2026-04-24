@@ -1,23 +1,36 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Cart{% endblock title %}
+{% block title %}Your Cart — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1 class="title">Cart</h1>
+    <div class="animate-fade-up delay-1">
+        <div class="columns is-vcentered mb-5">
+            <div class="column">
+                <h1 class="title is-2" style="color: var(--primary-color);"><i class="fas fa-shopping-cart mr-2"></i>Your Cart</h1>
+            </div>
+            {% if cart %}
+            <div class="column has-text-right">
+                <a href="{% url 'core:home' %}" class="button is-light" id="continue-shopping-link">
+                    <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
     {% if cart %}
     
-        <div class="box mb-6">
-            <div class="table">
-                <table class="table is-fullwidth is-striped">
+        <div class="box mb-6 animate-fade-up delay-2" style="padding: 0; overflow: hidden;">
+            <div class="table-container">
+                <table class="table is-fullwidth is-hoverable" id="cart-table" style="margin-bottom: 0;">
                     <thead>
-                        <tr>
-                            <th></th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th></th>
+                        <tr style="background: var(--accent-color);">
+                            <th style="border-bottom: 2px solid #ddd;"></th>
+                            <th style="border-bottom: 2px solid #ddd; color: var(--primary-color);">Product</th>
+                            <th style="border-bottom: 2px solid #ddd; color: var(--primary-color);" class="has-text-centered">Quantity</th>
+                            <th style="border-bottom: 2px solid #ddd; color: var(--primary-color);" class="has-text-right">Price</th>
+                            <th style="border-bottom: 2px solid #ddd;"></th>
                         </tr>
                     </thead>
 
@@ -25,25 +38,35 @@
                         {% for item in cart %}
                         
                             <tr>
-                                <td>
-                                    <figure class="image is-64x64">
-                                        <img src="{{ item.product.get_thumbnail }}" alt="{{item.product.title}}">
+                                <td style="vertical-align: middle;">
+                                    <figure class="image is-64x64" style="border-radius: 8px; overflow: hidden;">
+                                        <img src="{{ item.product.get_thumbnail }}" alt="{{item.product.title}}" style="object-fit: cover; height: 64px;">
                                     </figure>
                                 </td>
-                                <td>
-                                    <a href="{% url 'product:product' item.product.category.slug item.product.slug %}">{{item.product.title}}</a>
+                                <td style="vertical-align: middle;">
+                                    <a href="{% url 'product:product' item.product.category.slug item.product.slug %}" class="has-text-weight-medium" style="color: var(--primary-color);">
+                                        {{item.product.title}}
+                                    </a>
+                                    <br>
+                                    <small style="color: var(--text-muted);">{{ item.product.vendor.name }}</small>
                                 </td>
-                                <td>
-                                    ${{item.quantity}}
-
-                                    <a href="?change_quantity={{ item.id }}&quantity=-1">-</a>
-                                    <a href="?change_quantity={{ item.id }}&quantity=1">+</a>
-
+                                <td style="vertical-align: middle;" class="has-text-centered">
+                                    <div class="cart-qty-controls">
+                                        <a href="?change_quantity={{ item.id }}&quantity=-1" class="button is-small is-rounded is-light" title="Decrease quantity">
+                                            <i class="fas fa-minus"></i>
+                                        </a>
+                                        <span class="cart-qty-value">{{item.quantity}}</span>
+                                        <a href="?change_quantity={{ item.id }}&quantity=1" class="button is-small is-rounded is-light" title="Increase quantity">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
                                 </td>
 
-                                <td>${{ item.total_price }}</td>
-                                <td>
-                                    <a href="?remove_from_cart={{item.id}}" class="delete">Remove</a>
+                                <td style="vertical-align: middle;" class="has-text-right has-text-weight-bold">${{ item.total_price }}</td>
+                                <td style="vertical-align: middle;" class="has-text-centered">
+                                    <a href="?remove_from_cart={{item.id}}" class="button is-small is-danger is-light is-rounded" title="Remove from cart">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </td>
                             </tr>
                         
@@ -51,11 +74,12 @@
                     </tbody>
 
                     <tfoot>
-                        <tr>
+                        <tr style="background: var(--accent-color);">
                             <td></td>
-                            <td><strong>Total Cost</strong> </td>
-                            <td><strong>{{ cart|length }}</strong> </td>
-                            <td colspan="2">${{cart.get_total_cost}}</td>
+                            <td><strong style="color: var(--primary-color);">Total</strong></td>
+                            <td class="has-text-centered"><strong>{{ cart|length }} items</strong></td>
+                            <td class="has-text-right"><strong style="color: var(--primary-color); font-size: 1.2rem;">${{cart.get_total_cost}}</strong></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -63,120 +87,167 @@
         </div>
 
 
-        <h2 class="subtitle">Contact Information</h2>
+        <div class="columns animate-fade-up delay-3">
+            <div class="column is-7">
+                <div class="box" style="padding: 2rem;">
+                    <h2 class="title is-4 mb-5" style="color: var(--primary-color);"><i class="fas fa-user mr-2"></i>Contact Information</h2>
 
-        <form method="post" action="" id="payment-form">
-            {% csrf_token %}
+                    <form method="post" action="" id="payment-form">
+                        {% csrf_token %}
 
-            {% if form.non_field_errors %}
-                <div class="notification is-danger">
-                    {{form.non_field_errors}}
+                        {% if form.non_field_errors %}
+                            <div class="notification is-danger">
+                                {{form.non_field_errors}}
+                            </div>
+                        {% endif %}
+
+                        {% if form.errors %}
+                            <div class="notification is-danger">
+                                <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li><strong>{{field.label}}:</strong> {{error}}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <div class="columns">
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">First Name</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="first_name" id="checkout-first-name" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Last Name</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="last_name" id="checkout-last-name" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Email</label>
+                                    <div class="control has-icons-left">
+                                        <input type="email" name="email" id="checkout-email" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Phone</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="phone" id="checkout-phone" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Address</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="address" id="checkout-address" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-map-marker-alt"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Zip Code</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="zipcode" id="checkout-zipcode" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-hashtag"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label" style="color: var(--primary-color);">Place</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" name="place" id="checkout-place" class="input" required>
+                                        <span class="icon is-small is-left"><i class="fas fa-city"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr style="background-color: rgba(0,0,0,0.05);">
+
+                        <h2 class="title is-4 mb-4" style="color: var(--primary-color);"><i class="fas fa-credit-card mr-2"></i>Payment Information</h2>
+
+                        <div id="card-element" style="padding: 12px; border: 1px solid #ddd; border-radius: var(--radius-sm); background: white;">
+                            {% comment %} A stripe Element will be inserted here {% endcomment %}
+                        </div>
+                        
+                        <div id="card-errors" role="alert" class="has-text-danger mt-2 is-size-6"></div>
+
+                        <div class="field mt-5">
+                            <div class="control">
+                                <button class="button is-primary is-medium is-fullwidth" id="checkout-submit-btn">
+                                    <i class="fas fa-lock mr-2"></i> Pay ${{cart.get_total_cost}} — Place Order
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            {% endif %}
-
-            {% if form.errors %}
-                <div class="notification is-danger">
-                    <ul>
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <li><strong>{{field.label}}</strong>{{error}}</li>
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
-            <div class="columns">
-                <div class="column is-6">
-                    <div class="field">
-                        <label>First Name</label>
-
-                        <div class="control">
-                            <input type="text" name="first_name" id="" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Last Name</label>
-
-                        <div class="control">
-                            <input type="text" name="last_name" id="" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Email</label>
-
-                        <div class="control">
-                            <input type="email" name="email" id="" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Phone</label>
-
-                        <div class="control">
-                            <input type="text" name="phone" id="" class="input">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="column is-6">
-                    <div class="field">
-                        <label>Address</label>
-
-                        <div class="control">
-                            <input type="text" name="address" id="" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Zip Code</label>
-
-                        <div class="control">
-                            <input type="text" name="zipcode" id="" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Place</label>
-
-                        <div class="control">
-                            <input type="text" name="place" id="" class="input">
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
 
+            <div class="column is-5">
+                <div class="box" style="padding: 2rem; background: linear-gradient(135deg, rgba(26,77,46,0.05), rgba(79,111,82,0.1)); border: 1px solid rgba(26,77,46,0.1);">
+                    <h3 class="title is-5 mb-4" style="color: var(--primary-color);"><i class="fas fa-receipt mr-2"></i>Order Summary</h3>
+                    
+                    {% for item in cart %}
+                        <div class="level is-mobile mb-2" style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <div class="level-left">
+                                <span style="color: var(--text-main);">{{ item.product.title|truncatechars:25 }} × {{ item.quantity }}</span>
+                            </div>
+                            <div class="level-right">
+                                <strong>${{ item.total_price }}</strong>
+                            </div>
+                        </div>
+                    {% endfor %}
 
-            <h2 class="subtitle">Payment Information</h2>
-
-            <div id="card-element">
-                {% comment %} A stripe Element will be inserted here {% endcomment %}
-            </div>
-            
-            <div id="card-errors" role="alert" class="has-text-danger mt-2 is-size-6"></div>
-
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="notification is-danger">
-                        {{message}}
+                    <div class="level is-mobile mt-4 pt-3" style="border-top: 2px solid var(--primary-color);">
+                        <div class="level-left">
+                            <strong class="is-size-5" style="color: var(--primary-color);">Total</strong>
+                        </div>
+                        <div class="level-right">
+                            <strong class="is-size-4" style="color: var(--primary-color);">${{cart.get_total_cost}}</strong>
+                        </div>
                     </div>
-                {% endfor %}
-            {% endif %}
 
-            <div class="field">
-                <div class="control">
-                    <button class="button is-dark mt-4 is-uppercase">Checkout</button>
+                    <div class="mt-5" style="color: var(--text-muted); font-size: 0.85rem;">
+                        <p><i class="fas fa-shield-alt mr-2" style="color: var(--primary-color);"></i>Secure SSL encrypted payment</p>
+                        <p class="mt-2"><i class="fas fa-undo mr-2" style="color: var(--primary-color);"></i>30-day return policy</p>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
+
     {% else %}
 
-    <p>You don't have any products in your cart.</p>
+        <div class="columns is-centered animate-fade-up delay-2">
+            <div class="column is-6 has-text-centered">
+                <div class="box" style="padding: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.3;">
+                        🛒
+                    </div>
+                    <h2 class="title is-4" style="color: var(--text-muted);">Your cart is empty</h2>
+                    <p class="mb-5" style="color: var(--text-muted);">Looks like you haven't added any products yet. Explore our collection!</p>
+                    <a href="{% url 'core:home' %}" class="button is-primary is-medium" id="start-shopping-btn">
+                        <i class="fas fa-shopping-bag mr-2"></i> Start Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
 
     {% endif %}
 
@@ -190,18 +261,56 @@
         var stripe = Stripe('{{ stripe_pub_key }}');
         var elements = stripe.elements();
 
-        var card = elements.create('card');
+        var style = {
+            base: {
+                color: '#212529',
+                fontFamily: '"Outfit", sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        var card = elements.create('card', {style: style});
 
         card.mount('#card-element');
 
+        // Real-time card validation errors
+        card.on('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
         var form = document.getElementById('payment-form');
+        var submitBtn = document.getElementById('checkout-submit-btn');
+
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing Payment...';
+            submitBtn.classList.add('is-loading');
 
             stripe.createToken(card).then(function(result) {
                 if (result.error) {
                     var errorElement = document.getElementById('card-errors');
                     errorElement.textContent = result.error.message;
+                    
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-lock mr-2"></i> Pay ${{cart.get_total_cost}} — Place Order';
+                    submitBtn.classList.remove('is-loading');
                 } else {
                     stripeTokenHandler(result.token);
                 }

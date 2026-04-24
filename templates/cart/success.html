@@ -1,9 +1,34 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Order Successful{% endblock title %}
+{% block title %}Order Successful — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1 class="title">Thanks for the order.</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-6 has-text-centered">
+            <div class="box" style="padding: 3rem;">
+                <div style="font-size: 5rem; margin-bottom: 1.5rem;">
+                    🎉
+                </div>
+                <h1 class="title is-2" style="color: var(--primary-color);">Order Placed!</h1>
+                <p class="subtitle is-5" style="color: var(--text-muted);">
+                    Thank you for your purchase. Your order has been confirmed and is being processed.
+                </p>
+                
+                <hr style="background-color: rgba(0,0,0,0.05);">
+                
+                <div class="content" style="color: var(--text-muted);">
+                    <p><i class="fas fa-envelope mr-2" style="color: var(--primary-color);"></i>A confirmation email has been sent to your inbox.</p>
+                    <p><i class="fas fa-truck mr-2" style="color: var(--primary-color);"></i>You'll receive shipping updates via email.</p>
+                </div>
+
+                <div class="buttons is-centered mt-5">
+                    <a href="{% url 'core:home' %}" class="button is-primary is-medium" id="continue-shopping-btn">
+                        <i class="fas fa-shopping-bag mr-2"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}

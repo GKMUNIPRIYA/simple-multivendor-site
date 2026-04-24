@@ -1,35 +1,52 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Edit vendor | {% endblock %}
+{% block title %}Edit Profile — Nature's Embrace{% endblock %}
 
 {% block content %}
-    <h1 class="title">Edit vendor</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-5">
+            <div class="box" style="padding: 2.5rem;">
+                <div class="has-text-centered mb-5">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">✏️</div>
+                    <h1 class="title is-3" style="color: var(--primary-color);">Edit Profile</h1>
+                    <p style="color: var(--text-muted);">Update your vendor information</p>
+                </div>
 
-    <form method="post" action=".">
-        {% csrf_token %}
+                <form method="post" action="." id="edit-vendor-form">
+                    {% csrf_token %}
 
-        <div class="field">
-            <label>Vendor name</label>
+                    <div class="field">
+                        <label class="label" style="color: var(--primary-color);">Vendor Name</label>
+                        <div class="control has-icons-left">
+                            <input type="text" name="name" id="id_name" value="{{ vendor.name }}" class="input" required>
+                            <span class="icon is-small is-left"><i class="fas fa-store"></i></span>
+                        </div>
+                        <p class="help" style="color: var(--text-muted);">This is your display name, not your username.</p>
+                    </div>
 
-            <div class="control">
-                <input type="text" name="name" id="id_name" value="{{ vendor.name }}" class="input">
+                    <div class="field">
+                        <label class="label" style="color: var(--primary-color);">E-mail</label>
+                        <div class="control has-icons-left">
+                            <input type="email" name="email" id="id_email" value="{{ vendor.created_by.email }}" class="input">
+                            <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="field mt-5">
+                        <div class="control">
+                            <button class="button is-primary is-fullwidth is-medium" id="save-profile-btn">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="has-text-centered mt-4">
+                    <a href="{% url 'vendor:vendor-admin' %}" style="color: var(--text-muted);">
+                        <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
+                    </a>
+                </div>
             </div>
-
-            <p class="help">This is not the same as the username!</p>
         </div>
-
-        <div class="field">
-            <label>E-mail</label>
-
-            <div class="control">
-                <input type="email" name="email" id="id_email" value="{{ vendor.created_by.email }}" class="input">
-            </div>
-        </div>
-
-        <div class="field">
-            <div class="control">
-                <button class="button is-dark is-uppercase">Save changes</button>
-            </div>
-        </div>
-    </form>
+    </div>
 {% endblock %}

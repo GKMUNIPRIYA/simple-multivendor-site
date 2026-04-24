@@ -1,20 +1,56 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Become Vendor {% endblock title %}
+{% block title %}Become a Vendor — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1 class="title">Become Vendor</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-5">
+            <div class="box" style="padding: 2.5rem;">
+                <div class="has-text-centered mb-5">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🌿</div>
+                    <h1 class="title is-3" style="color: var(--primary-color);">Become a Vendor</h1>
+                    <p style="color: var(--text-muted);">Join our marketplace and start selling your products today.</p>
+                </div>
 
-    <form method="post" action="">
-        {% csrf_token %}
+                {% if form.errors %}
+                    <div class="notification is-danger is-light">
+                        <button class="delete"></button>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
-        {{ form.as_p }}
+                <form method="post" action="" id="signup-form">
+                    {% csrf_token %}
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-dark is-uppercase">Sign Up</button>
+                    {{ form.as_p }}
+
+                    <div class="field mt-5">
+                        <div class="control">
+                            <button class="button is-primary is-fullwidth is-medium" id="signup-submit-btn">
+                                <i class="fas fa-user-plus mr-2"></i> Create Account
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="has-text-centered mt-5">
+                    <p style="color: var(--text-muted);">
+                        Already have an account? 
+                        <a href="{% url 'vendor:login' %}" style="color: var(--primary-color); font-weight: 600;">Log in</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
+
 {% endblock content %}

@@ -1,12 +1,94 @@
 {% extends 'core/base.html' %}
 
-
-{% block title %}Contact Us{% endblock title %}
+{% block title %}Contact Us — Nature's Embrace{% endblock title %}
 
 {% block content %}
 
-    <h1>Contact Us</h1>
+    <div class="columns is-centered animate-fade-up delay-1">
+        <div class="column is-8">
+            <div class="has-text-centered mb-6">
+                <h1 class="title is-2" style="color: var(--primary-color);">Get In Touch</h1>
+                <p class="subtitle" style="color: var(--text-muted);">We'd love to hear from you. Send us a message below.</p>
+            </div>
 
-    
+            <div class="columns">
+                <div class="column is-7 animate-fade-up delay-2">
+                    <div class="box" style="padding: 2rem;">
+                        <form method="post" action="" id="contact-form">
+                            {% csrf_token %}
+
+                            <div class="field">
+                                <label class="label" style="color: var(--primary-color);">Full Name</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" name="name" id="contact-name" class="input" placeholder="Your Name" required>
+                                    <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" style="color: var(--primary-color);">Email Address</label>
+                                <div class="control has-icons-left">
+                                    <input type="email" name="email" id="contact-email" class="input" placeholder="you@example.com" required>
+                                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" style="color: var(--primary-color);">Subject</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" name="subject" id="contact-subject" class="input" placeholder="How can we help?" required>
+                                    <span class="icon is-small is-left"><i class="fas fa-tag"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" style="color: var(--primary-color);">Message</label>
+                                <div class="control">
+                                    <textarea name="message" id="contact-message" class="textarea" rows="5" placeholder="Tell us more..." required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-primary is-fullwidth" id="contact-submit">
+                                        <i class="fas fa-paper-plane mr-2"></i> Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="column is-5 animate-fade-up delay-3">
+                    <div class="box" style="padding: 2rem; background: linear-gradient(135deg, rgba(26,77,46,0.05), rgba(79,111,82,0.1)); border: 1px solid rgba(26,77,46,0.1);">
+                        <h3 class="title is-5 mb-5" style="color: var(--primary-color);"><i class="fas fa-info-circle mr-2"></i>Contact Information</h3>
+                        
+                        <div class="mb-5">
+                            <p class="mb-3">
+                                <i class="fas fa-map-marker-alt mr-2" style="color: var(--primary-color);"></i>
+                                <strong>Address</strong><br>
+                                <span class="ml-4" style="color: var(--text-muted);">123 Herbal Lane, Green City</span>
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-phone mr-2" style="color: var(--primary-color);"></i>
+                                <strong>Phone</strong><br>
+                                <span class="ml-4" style="color: var(--text-muted);">+1 (555) 123-4567</span>
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-envelope mr-2" style="color: var(--primary-color);"></i>
+                                <strong>Email</strong><br>
+                                <span class="ml-4" style="color: var(--text-muted);">support@naturesembrace.com</span>
+                            </p>
+                            <p>
+                                <i class="fas fa-clock mr-2" style="color: var(--primary-color);"></i>
+                                <strong>Business Hours</strong><br>
+                                <span class="ml-4" style="color: var(--text-muted);">Mon — Fri: 9AM – 6PM</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}

@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import Vendor
 from product.models import Product
@@ -13,10 +14,6 @@ from django.utils.text import slugify
 # Create your views here.
 
 
-def vendors(request):
-    return render(request, 'vendor/vendors.html')
-
-
 def become_vendor(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -26,6 +23,7 @@ def become_vendor(request):
             login(request, user)
             vendor = Vendor.objects.create(name=user.username, created_by=user)
 
+            messages.success(request, "Welcome! Your vendor account has been created successfully.")
             return redirect('core:home')
     else:
         form = UserCreationForm()   
@@ -65,10 +63,11 @@ def add_product(request):
             product.slug = slugify(product.title)
             product.save() #finally save
 
+            messages.success(request, "Product added successfully!")
             return redirect('vendor:vendor-admin')
 
     else:
-        form = ProductForm
+        form = ProductForm()  # FIX: Was missing parentheses — form was never instantiated
 
     return render(request, 'vendor/add_product.html', {'form': form})
 
@@ -86,13 +85,15 @@ def edit_vendor(request):
             vendor.created_by.save()
 
             vendor.name = name
-            vendor.save
+            vendor.save()  # FIX: Was vendor.save (missing parentheses) — data was NEVER saved!
 
+            messages.success(request, "Profile updated successfully!")
             return redirect('vendor:vendor-admin')
 
     return render(request, 'vendor/edit_vendor.html', {'vendor': vendor})
 
 
+# FIX: Removed duplicate vendors() function — first definition was dead code with no context
 def vendors(request):
     vendors = Vendor.objects.all()
     return render(request, 'vendor/vendors.html', {'vendors': vendors})
@@ -100,5 +101,3 @@ def vendors(request):
 def vendor(request, vendor_id):
     vendor = get_object_or_404(Vendor, pk=vendor_id)
     return render(request, 'vendor/vendor.html', {'vendor': vendor})
-
-
