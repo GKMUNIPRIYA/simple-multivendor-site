@@ -1,27 +1,28 @@
-/* Premium Herbal & Eco E-Commerce Theme */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap');
+/* Premium Herbal & Eco E-Commerce Theme - Just Herbs Style */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #1a4d2e;     /* Deep forest green */
-    --primary-light: #4f6f52;     /* Lighter green */
-    --accent-color: #f5efe6;      /* Cream */
-    --accent-dark: #e8dfca;       /* Darker cream */
-    --text-main: #212529;         /* Dark grey */
-    --text-muted: #6c757d;        /* Muted text */
+    --primary-color: #2d5a27;     /* Just Herbs Green */
+    --primary-light: #4f6f52;     
+    --accent-color: #fdfcf0;      /* Just Herbs Cream Background */
+    --accent-dark: #e1f5e1;       /* Mint Accent */
+    --text-main: #4a3a3a;         /* Earthy Brown Text */
+    --text-muted: #6c757d;
     --white: #ffffff;
+    --gold: #d4af37;              /* Star Rating Gold */
     
-    --shadow-sm: 0 4px 6px rgba(0,0,0,0.04);
-    --shadow-md: 0 10px 20px rgba(0,0,0,0.06);
-    --shadow-lg: 0 20px 40px rgba(0,0,0,0.1);
-    --shadow-hover: 0 15px 35px rgba(26,77,46,0.15);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 15px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+    --shadow-hover: 0 15px 35px rgba(45,90,39,0.15);
     
     --transition-fast: 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
     --transition-base: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     --transition-slow: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
+    --radius-sm: 4px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
     --radius-pill: 50px;
 }
 
@@ -33,7 +34,7 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--accent-color);
     color: var(--text-main);
     line-height: 1.6;
@@ -292,6 +293,65 @@ h1, h2, h3, h4, h5, h6, .title, .subtitle, .navbar-brand {
 
 .box:hover img {
     transform: scale(1.08);
+}
+
+/* Benefit Subtitles */
+.benefit-subtitle {
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.rating-stars {
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-count {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: 5px;
+}
+
+/* Quick Add Button */
+.quick-add-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+}
+
+.quick-add-btn:hover {
+    background: var(--text-main);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--accent-dark);
+    color: var(--primary-color);
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 2px;
+    z-index: 10;
 }
 
 /* Card Content Overlay */

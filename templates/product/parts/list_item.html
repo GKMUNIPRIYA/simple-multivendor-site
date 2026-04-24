@@ -2,13 +2,27 @@
     <div class="box">
         <figure class="image is-4by3">
             <img src="{{ product.get_thumbnail }}" alt="{{product.title}}">
+            <div class="product-badge">Best Seller</div>
         </figure>
 
         <div class="content-wrapper">
-            <h2 class="title">{{product.title}}</h2>
+            <p class="benefit-subtitle">Nurtures & Repairs</p>
+            <h2 class="title is-size-5" style="height: 3em; overflow: hidden;">{{product.title}}</h2>
+            
+            <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(4.8)</span>
+            </div>
+
             <h3 class="price">${{product.price}}</h3>
-            <hr>
-            <a href="{% url 'product:product' product.category.slug product.slug %}" class="button is-dark is-fullwidth">View Details</a>
+            
+            <a href="{% url 'product:product' product.category.slug product.slug %}" class="quick-add-btn">
+                <i class="fas fa-shopping-bag"></i> Add to Bag
+            </a>
         </div>
     </div>
             </div>
