@@ -5,9 +5,54 @@
 
 {% block content %}
     <div class="hero-herbal animate-fade-up delay-1">
-        <h1>Pure, Natural, Herbal.</h1>
-        <p>Discover a premium selection of organic herbs, elixirs, and natural remedies sourced directly from our trusted vendors.</p>
-        <a href="#latest" class="button is-dark is-large">Shop Now</a>
+        <div class="hero-body">
+            <h1 class="title is-1">Pure. Botanical. <br>Proven.</h1>
+            <p class="subtitle">Experience the wisdom of Ayurveda through our carefully curated herbal elixirs and skincare essentials.</p>
+            <div class="buttons is-centered">
+                <a href="#latest" class="button is-primary is-large">Shop All Products</a>
+                <a href="#latest" class="button is-light is-large">Explore Remedies</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop by Concern (Just Herbs style) -->
+    <div class="container mt-6 mb-6">
+        <div class="has-text-centered mb-6 animate-fade-up delay-2">
+            <h2 class="title is-2">Shop by Concern</h2>
+            <div class="is-divider" style="width: 60px; height: 2px; background: var(--primary-light); margin: 1rem auto;"></div>
+        </div>
+        <div class="columns is-multiline is-centered animate-fade-up delay-3">
+            <div class="column is-2-desktop is-4-tablet has-text-centered">
+                <div class="concern-circle">
+                    <div class="circle-inner"><i class="fas fa-spa"></i></div>
+                    <p>Anti-Aging</p>
+                </div>
+            </div>
+            <div class="column is-2-desktop is-4-tablet has-text-centered">
+                <div class="concern-circle">
+                    <div class="circle-inner"><i class="fas fa-tint"></i></div>
+                    <p>Hydration</p>
+                </div>
+            </div>
+            <div class="column is-2-desktop is-4-tablet has-text-centered">
+                <div class="concern-circle">
+                    <div class="circle-inner"><i class="fas fa-sun"></i></div>
+                    <p>Sun Protection</p>
+                </div>
+            </div>
+            <div class="column is-2-desktop is-4-tablet has-text-centered">
+                <div class="concern-circle">
+                    <div class="circle-inner"><i class="fas fa-leaf"></i></div>
+                    <p>Acne Care</p>
+                </div>
+            </div>
+            <div class="column is-2-desktop is-4-tablet has-text-centered">
+                <div class="concern-circle">
+                    <div class="circle-inner"><i class="fas fa-magic"></i></div>
+                    <p>Glow & Shine</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Features Section -->
@@ -48,12 +93,33 @@
 
     <div id="latest" class="columns is-multiline mb-6">
         <div class="column is-12 has-text-centered mt-6 mb-6 animate-fade-up delay-2">
-            <h2 class="is-size-2 title" style="color: var(--primary-color);">Our Latest Offerings</h2>
-            <p class="subtitle" style="color: var(--primary-light);">Carefully curated for your well-being</p>
+            <h2 class="is-size-2 title" style="color: var(--primary-color);">Best Sellers</h2>
+            <p class="subtitle" style="color: var(--primary-light);">Our most loved botanical essentials</p>
         </div>
 
         {% for product in newest_products %}
             {% include 'product/parts/list_item.html' %}
         {% endfor %}
+    </div>
+
+    <!-- Trust Section -->
+    <div class="trust-banner mt-6 mb-6 p-6 has-text-centered animate-fade-up delay-4" style="background: var(--accent-dark); border-radius: var(--radius-md);">
+        <div class="columns">
+            <div class="column">
+                <i class="fas fa-shield-alt fa-2x mb-3" style="color: var(--primary-color);"></i>
+                <h4 class="title is-5">Safe & Pure</h4>
+                <p>No harmful chemicals, only nature's best.</p>
+            </div>
+            <div class="column">
+                <i class="fas fa-flask fa-2x mb-3" style="color: var(--primary-color);"></i>
+                <h4 class="title is-5">Ayurvedic Roots</h4>
+                <p>Ancient wisdom meets modern science.</p>
+            </div>
+            <div class="column">
+                <i class="fas fa-hand-holding-heart fa-2x mb-3" style="color: var(--primary-color);"></i>
+                <h4 class="title is-5">Cruelty Free</h4>
+                <p>Never tested on animals, always kind.</p>
+            </div>
+        </div>
     </div>
 {% endblock content %}

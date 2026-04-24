@@ -189,6 +189,45 @@ h1, h2, h3, h4, h5, h6, .title, .subtitle, .navbar-brand {
     margin-right: auto;
 }
 
+/* Concern Circles */
+.concern-circle {
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.concern-circle:hover {
+    transform: translateY(-5px);
+}
+
+.circle-inner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--accent-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--primary-color);
+    font-size: 2rem;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.concern-circle:hover .circle-inner {
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: var(--shadow-hover);
+}
+
+.concern-circle p {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-family: 'Outfit', sans-serif;
+}
+
 /* Premium Product Cards */
 .product-list-item {
     margin-bottom: 2rem;
